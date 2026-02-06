@@ -1,0 +1,19 @@
+app:
+  name: recruitment-app
+  replicas: 2
+  port: 3000
+
+image:
+  repository: grcrecruitmentacr.azurecr.io/recruitment-app
+  tag: 11344
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 3000
+
+mongo:
+  name: mongodb
+  image: mongo:6.0
+  port: 27017
+  database: recruitmentdb

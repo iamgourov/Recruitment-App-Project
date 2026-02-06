@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: recruitment-app
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: https://kubernetes.default.svc
+            namespace: default
+  template:
+    metadata:
+      name: recruitment-app
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/iamgourov/Recruitment-App-Project.git
+        targetRevision: azure-devops
+        path: Charts\recruitment-app
+        helm:
+          valueFiles:
+            - values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true      # Deletes resources removed from the chart
+          selfHeal: true   # Fixes drift automatically
